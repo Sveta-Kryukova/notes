@@ -2,9 +2,11 @@ import { ListItem } from "../listItems/ListItems";
 import "./workSpace.css";
 
 type WorkSpaceProps = {
-  selectedItem: ListItem | null,
-  onEditTitle?: (e: React.ChangeEvent<HTMLInputElement>) => void,
-  onEditContext?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void,
+  selectedItem: ListItem | null;
+  editedItem: ListItem | null;
+  onDelete: () => void;
+  onEditTitle: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onEditContext: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
 export const WorkSpace = ({ selectedItem, onEditTitle, onEditContext }: WorkSpaceProps) => {
@@ -22,7 +24,7 @@ export const WorkSpace = ({ selectedItem, onEditTitle, onEditContext }: WorkSpac
       <p>Created at: {selectedItem.createdAt.toString()}</p>
       <textarea
         value={selectedItem.title}
-        onChange={onEditTitle as ((e: React.ChangeEvent<HTMLTextAreaElement>) => void) | undefined}
+        onChange={onEditTitle as unknown as ((e: React.ChangeEvent<HTMLTextAreaElement>) => void) | undefined}
       />
       <br />
       <textarea

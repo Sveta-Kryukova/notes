@@ -9,29 +9,36 @@ import { ListItem } from './components/listItems/ListItems';
 function App() {
   const [query, setQuery] = useState("");
   const [selectedItem, setSelectedItem] = useState<ListItem | null>(null);
-  const [items, setItems] = useState<ListItem[]>([
-    {
-      id: 1,
-      title: "Note 1",
-      context: "zxc",
-      createdAt: new Date(),
-      locked: false,
-    },
-  ]);
+  const [items, setItems] = useState<ListItem[]>([]);
   const [editedItem, setEditedItem] = useState<ListItem | null>(null);
 
   useEffect(() => {
-    if (editedItem) {
-      const updatedItems = items.map(item => {
-        if (item.id === editedItem.id) {
-          return editedItem;
-        } else {
-          return item;
-        }
-      });
-      setItems(updatedItems);
-    }
-  }, [editedItem, items]);
+    const db = openDatabase();
+    db.then(database => {
+      const transaction = database.transaction("notes", "readonly");
+      const store = transaction.objectStore("notes");
+      const request = store.getAll();
+      request.onsuccess = () => {
+        const notes = request.result;
+        setItems(notes);
+      }
+    });
+  }, []);
+
+  const openDatabase = () => {
+    return new Promise<IDBDatabase>((resolve, reject) => {
+      const request = window.indexedDB.open("notes-app", 1);
+      request.onerror = () => reject(request.error);
+      request.onsuccess = () => resolve(request.result);
+      request.onupgradeneeded = () => {
+        const database = request.result;
+        const objectStore = database.createObjectStore("notes", { keyPath: "id" });
+        objectStore.createIndex("title", "title", { unique: false });
+        objectStore.createIndex("context", "context", { unique: false });
+        objectStore.createIndex("createdAt", "createdAt", { unique: false });
+      }
+    });
+  }
 
   const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
@@ -39,30 +46,46 @@ function App() {
   }
 
   const handleItemClick = (item: ListItem) => {
-    setSelectedItem(item);
-    setEditedItem(null);
+    setSelectedItem(() => item);
+    setEditedItem(() => null);
   }
-
+  
   const handleAddNote = () => {
     const newNote = {
-      id: items.length + 1,
+      id: Date.now(),
       title: "",
       context: "",
       createdAt: new Date(),
       locked: false,
     }
-    setItems([...items, newNote]);
-    setSelectedItem(newNote);
-    setEditedItem(newNote);
+    const db = openDatabase();
+    db.then(database => {
+      const transaction = database.transaction("notes", "readwrite");
+      const store = transaction.objectStore("notes");
+      const request = store.add(newNote);
+      request.onsuccess = () => {
+        setItems(prevItems => [...prevItems, newNote]);
+        setSelectedItem(() => newNote);
+        setEditedItem(() => newNote);
+      }
+    });
   }
-
+  
   const handleDelete = () => {
     if (selectedItem) {
       const confirmDelete = window.confirm("Are you sure you want to delete this note?");
       if (confirmDelete) {
-        const updatedItems = items.filter(item => item.id !== selectedItem.id);
-        setItems(updatedItems);
-        setSelectedItem(null);
+        const db = openDatabase();
+        db.then(database => {
+          const transaction = database.transaction("notes", "readwrite");
+          const store = transaction.objectStore("notes");
+          const request = store.delete(selectedItem.id);
+          request.onsuccess = () => {
+            const updatedItems = items.filter(item => item.id !== selectedItem.id);
+            setItems(updatedItems);
+            setSelectedItem(null);
+          }
+        });
       }
     }
   }
@@ -71,42 +94,59 @@ function App() {
     if (editedItem) {
       const updatedItem = { ...editedItem, title: e.target.value };
       setSelectedItem(updatedItem);
-      setEditedItem(updatedItem);
-    }
-  };
-  
+        setEditedItem(updatedItem);
+        const updatedItems = [...items];
+        const index = updatedItems.findIndex(item => item.id === updatedItem.id);
+        updatedItems[index] = updatedItem;
+        setItems(updatedItems);
+        const db = openDatabase();
+        db.then(database => {
+        const transaction = database.transaction("notes", "readwrite");
+        const store = transaction.objectStore("notes");
+        store.put(updatedItem);
+        });
+        }
+        }
+        
   const handleEditContext = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (editedItem) {
       const updatedItem = { ...editedItem, context: e.target.value };
       setSelectedItem(updatedItem);
       setEditedItem(updatedItem);
+      const updatedItems = [...items];
+      const index = updatedItems.findIndex(item => item.id === updatedItem.id);
+      updatedItems[index] = updatedItem;
+      setItems(updatedItems);
+      const db = openDatabase();
+      db.then(database => {
+        const transaction = database.transaction("notes", "readwrite");
+        const store = transaction.objectStore("notes");
+        store.put(updatedItem);
+      });
     }
-  };
-  
-
+  }
+        
   return (
-    <div className="App">
-      <div>
+    <div className="app">
+      <div className="sidebar">
         <Button onClick={handleAddNote}>Add</Button>
         <Button onClick={handleDelete}>Delete</Button>
         <Button onClick={() => setEditedItem(selectedItem)}>Edit</Button>
         <SearchBox value={query} onChange={handleQueryChange} />
       </div>
-      <div className="App-body">
         <ListItems
-          items={items}
+          items={items.filter(item => item.title.includes(query))}
           selectedItem={selectedItem}
-          onItemClick={handleItemClick}
-          filter={query}
-        />
+          onItemClick={handleItemClick} filter={''} />
         <WorkSpace
           selectedItem={selectedItem}
+          editedItem={editedItem}
+          onDelete={handleDelete}
           onEditTitle={handleEditTitle}
           onEditContext={handleEditContext}
         />
       </div>
-    </div>
-  );
-}
-
-export default App;
+    );
+  }
+        
+  export default App;
