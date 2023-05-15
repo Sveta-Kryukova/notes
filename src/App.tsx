@@ -1,10 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import './App.css';
 import { Button } from './components/button/Button';
 import { SearchBox } from './components/searchBox/SearchBox';
 import { ListItems } from './components/listItems';
 import { WorkSpace } from './components/workSpace';
-import { ListItem } from './components/listItems/ListItems';
+import { ListItem } from "./types/ListItem";
+import { StateContextType } from "./types/StateContextType";
+
+const StateContext = React.createContext<StateContextType>({
+  query: "",
+  selectedItem: null,
+  items: [],
+  editedItem: null,
+  handleQueryChange: () => {},
+  handleItemClick: () => {},
+  handleAddNote: () => {},
+  handleDelete: () => {},
+  handleEditTitle: () => {},
+  handleEditContext: () => {},
+});
 
 function App() {
   const [query, setQuery] = useState("");
@@ -46,10 +60,10 @@ function App() {
   }
 
   const handleItemClick = (item: ListItem) => {
-    setSelectedItem(() => item);
-    setEditedItem(() => null);
+    setSelectedItem(item);
+    setEditedItem(null);
   }
-  
+
   const handleAddNote = () => {
     const newNote = {
       id: Date.now(),
@@ -65,12 +79,12 @@ function App() {
       const request = store.add(newNote);
       request.onsuccess = () => {
         setItems(prevItems => [...prevItems, newNote]);
-        setSelectedItem(() => newNote);
-        setEditedItem(() => newNote);
+        setSelectedItem(newNote);
+        setEditedItem(newNote);
       }
     });
   }
-  
+
   const handleDelete = () => {
     if (selectedItem) {
       const confirmDelete = window.confirm("Are you sure you want to delete this note?");
@@ -94,20 +108,20 @@ function App() {
     if (editedItem) {
       const updatedItem = { ...editedItem, title: e.target.value };
       setSelectedItem(updatedItem);
-        setEditedItem(updatedItem);
-        const updatedItems = [...items];
-        const index = updatedItems.findIndex(item => item.id === updatedItem.id);
-        updatedItems[index] = updatedItem;
-        setItems(updatedItems);
-        const db = openDatabase();
-        db.then(database => {
+      setEditedItem(updatedItem);
+      const updatedItems = [...items];
+      const index = updatedItems.findIndex(item => item.id === updatedItem.id);
+      updatedItems[index] = updatedItem;
+      setItems(updatedItems);
+      const db = openDatabase();
+      db.then(database => {
         const transaction = database.transaction("notes", "readwrite");
         const store = transaction.objectStore("notes");
         store.put(updatedItem);
-        });
-        }
-        }
-        
+      });
+    }
+  }
+
   const handleEditContext = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (editedItem) {
       const updatedItem = { ...editedItem, context: e.target.value };
@@ -125,28 +139,44 @@ function App() {
       });
     }
   }
-        
+
   return (
-    <div className="app">
-      <div className="sidebar">
+    <StateContext.Provider value={{
+      query,
+      selectedItem,
+      items,
+      editedItem,
+      handleQueryChange,
+      handleItemClick,
+      handleAddNote,
+      handleDelete,
+      handleEditTitle,
+      handleEditContext,
+    }}>
+
+    <div className="App">
+      <div>
         <Button onClick={handleAddNote}>Add</Button>
         <Button onClick={handleDelete}>Delete</Button>
         <Button onClick={() => setEditedItem(selectedItem)}>Edit</Button>
         <SearchBox value={query} onChange={handleQueryChange} />
       </div>
+      <div className="App-body">
         <ListItems
-          items={items.filter(item => item.title.includes(query))}
+          items={items.filter(item => item.title.toLowerCase().includes(query.toLowerCase()))}
           selectedItem={selectedItem}
-          onItemClick={handleItemClick} filter={''} />
+          onItemClick={handleItemClick}
+        />
         <WorkSpace
           selectedItem={selectedItem}
-          editedItem={editedItem}
-          onDelete={handleDelete}
-          onEditTitle={handleEditTitle}
-          onEditContext={handleEditContext}
+          onEditTitle={(e) => handleEditTitle
+            (e)}
+          onEditContext={(e) => handleEditContext(e)}
         />
       </div>
-    );
-  }
-        
-  export default App;
+    </div>
+    </StateContext.Provider>
+  );
+}
+
+export default App;
