@@ -1,0 +1,26 @@
+.search-box {
+  position: relative;
+  margin-right: 30px;
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  left: 50px;
+  transform: translate(-50%, -50%);
+  color: grey;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 10px;
+  background-color: white;
+  border: none;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.search-box input::placeholder {
+  color: grey;
+  text-align: center;
+}

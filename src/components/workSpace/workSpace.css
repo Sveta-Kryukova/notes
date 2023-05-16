@@ -1,3 +1,23 @@
+.work-space {
+  width: 100%;
+}
+
+.date {
+  text-align: center;
+  padding: 0;
+  color: gray;
+}
+
+.title-input {
+  font-weight: bold;
+  display: inline;
+  height: fit-content;
+  min-height: 1em;
+  overflow: hidden;
+  resize: none;
+  text-align: left;
+}
+
 textarea {
   /* Remove default styles */
   appearance: none;
@@ -12,6 +32,9 @@ textarea {
   padding: 0.5rem;
   border-radius: 0.25rem;
   box-shadow: none;
+  flex-grow: 1;
+  height: fit-content;
+  text-align: left;
 }
 
 textarea:focus {

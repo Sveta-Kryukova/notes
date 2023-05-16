@@ -6,6 +6,9 @@ import { ListItems } from './components/listItems';
 import { WorkSpace } from './components/workSpace';
 import { ListItem } from "./types/ListItem";
 import { StateContextType } from "./types/StateContextType";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
+
 
 const StateContext = React.createContext<StateContextType>({
   query: "",
@@ -25,7 +28,7 @@ function App() {
   const [selectedItem, setSelectedItem] = useState<ListItem | null>(null);
   const [items, setItems] = useState<ListItem[]>([]);
   const [editedItem, setEditedItem] = useState<ListItem | null>(null);
-
+  
   useEffect(() => {
     const db = openDatabase();
     db.then(database => {
@@ -103,7 +106,7 @@ function App() {
       }
     }
   }
-
+  
   const handleEditTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (editedItem) {
       const updatedItem = { ...editedItem, title: e.target.value };
@@ -155,22 +158,33 @@ function App() {
     }}>
 
     <div className="App">
-      <div>
-        <Button onClick={handleAddNote}>Add</Button>
-        <Button onClick={handleDelete}>Delete</Button>
-        <Button onClick={() => setEditedItem(selectedItem)}>Edit</Button>
+      <div className='toolBar'>
+        <div className='buttonGroup'>
+          <Button onClick={handleAddNote}>
+            <FontAwesomeIcon icon={faPlus} />
+          </Button>
+
+          <Button onClick={handleDelete} disabled={!selectedItem}>
+            <FontAwesomeIcon icon={faTrash} />
+          </Button>
+
+          <Button onClick={() => setEditedItem(selectedItem)} disabled={!selectedItem}>
+            <FontAwesomeIcon icon={faEdit} />
+          </Button>
+        </div>
+
         <SearchBox value={query} onChange={handleQueryChange} />
       </div>
-      <div className="App-body">
+      <div className="appBody">
         <ListItems
           items={items.filter(item => item.title.toLowerCase().includes(query.toLowerCase()))}
           selectedItem={selectedItem}
           onItemClick={handleItemClick}
         />
+
         <WorkSpace
           selectedItem={selectedItem}
-          onEditTitle={(e) => handleEditTitle
-            (e)}
+          onEditTitle={(e) => handleEditTitle(e)}
           onEditContext={(e) => handleEditContext(e)}
         />
       </div>

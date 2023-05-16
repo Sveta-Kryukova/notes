@@ -1,4 +1,7 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import './SearchBox.css';
 
 interface SearchBoxProps {
   value: string;
@@ -8,7 +11,14 @@ interface SearchBoxProps {
 export const SearchBox = (props: SearchBoxProps) => {
   return (
     <div className="search-box">
-      <input type="text" placeholder="Search..." value={props.value} onChange={props.onChange} />
+      <input
+        type="text"
+        placeholder="Search..."
+        value={props.value}
+        onChange={props.onChange}
+      />
+      <FontAwesomeIcon icon={faSearch} className="search-icon" />
     </div>
   );
-}
+};
+

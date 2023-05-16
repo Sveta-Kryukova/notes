@@ -1,0 +1,36 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f9f9f9;
+  overflow-x: hidden;
+}
+
+.toolBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+  background-color: lightgray;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 5px;
+}
+
+.appBody {
+  display: flex;
+  flex: 1;
+}
+
+.listContainer {
+  width: 250px;
+}
+
+.workSpace {
+  flex: 1;
+  background-color: white;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
