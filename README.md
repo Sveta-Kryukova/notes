@@ -3,6 +3,7 @@
 <a href="https://sveta-kryukova.github.io/notes-test-task/" style="font-size: 24px;">Demo</a>
 
 This is a simple note-taking application built with React and TypeScript, designed to resemble the note-taking functionality found in Mac OS. The app allows users to create, edit, and delete notes, as well as search for notes based on partial matches in the title or context.
+
 <img src="https://github.com/Sveta-Kryukova/notes-test-task/assets/116656921/2040f526-3a2e-40db-bb3b-eaa95298d5fc" alt="demo" style="width: 500px; height: 270px;">
 
 <h2>Features</h2>
