@@ -4,16 +4,16 @@
 
 This is a simple note-taking application built with React and TypeScript, designed to resemble the note-taking functionality found in Mac OS. The app allows users to create, edit, and delete notes, as well as search for notes based on partial matches in the title or context.
 
-<img src="https://github.com/Sveta-Kryukova/notes-test-task/assets/116656921/2040f526-3a2e-40db-bb3b-eaa95298d5fc" alt="demo" style="width: 500px; height: 270px;">
+<img src="https://github.com/Sveta-Kryukova/notes-test-task/assets/116656921/26decfef-b872-4c9c-a21b-b62179451023" alt="demo" style="width: 500px; height: 230px;">
 
 <h2>Features</h2>
-Create new notes: Users can easily create new notes by providing a title and content.
-
-Edit existing notes: Existing notes can be edited to update the title or content.
-
-Delete notes: Users can remove unwanted notes from the app.
-
-Search functionality: The app provides a search feature that allows users to find notes by entering a partial match for the title.
+<ul>
+  <li>Create new notes: Users can easily create new notes by providing a title and content.</li>
+  <li>Edit existing notes: Existing notes can be edited to update the title or content.</li>
+  <li>Delete notes: Users can remove unwanted notes from the app.</li>
+  <li>Search functionality: The app provides a search feature that allows users to find notes by entering a partial match for the title.</li>
+</ul>
+<p>When no note is chosen, the delete and edit buttons are disabled to prevent unwanted actions. Once a note is clicked, the full note is displayed in the workspace, where users can choose to delete or edit the note.</p>
 <h2>Technologies Used</h2>
 <ul>
 <li>React: The app is built using the React library, which provides a modular and efficient approach to building user interfaces. React enables the creation of reusable components, making it easier to develop complex UIs and maintain a consistent user experience.</li>
