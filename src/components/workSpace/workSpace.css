@@ -10,12 +10,23 @@
 
 .title-input {
   font-weight: bold;
-  display: inline;
-  height: fit-content;
+  display: inline-block;
   min-height: 1em;
-  overflow: hidden;
+  outline: none;
+  border: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: anywhere; /* Updated property */
+  width: 97%;
   resize: none;
-  text-align: left;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  box-shadow: none;
+  font-size: 24px;
+  line-height: 1.2;
+  margin-bottom: 0.2em;
+  overflow-y: hidden;
+  max-height: 40em;
 }
 
 textarea {
@@ -35,8 +46,26 @@ textarea {
   flex-grow: 1;
   height: fit-content;
   text-align: left;
+  overflow: hidden;
+  width: 97%;
+  height: 100%;
 }
 
-textarea:focus {
-  box-shadow: none;
+/* Responsive styles */
+@media (max-width: 768px) {
+  .work-space {
+    padding: 0 1rem;
+  }
+  
+  .title-input {
+    font-size: 20px;
+    line-height: 1.1;
+  }
+}
+
+@media (max-width: 480px) {
+  .title-input {
+    font-size: 18px;
+    line-height: 1;
+  }
 }

@@ -28,14 +28,16 @@ export const WorkSpace = ({
     <div className="work-space">
       <p className="date">{formattedDate}</p>
 
-      <textarea
+      <div
+        contentEditable
         className="title-input"
-        value={selectedItem.title}
-        onChange={onEditTitle as ((e: React.ChangeEvent<HTMLTextAreaElement>) => void) | undefined}
-      />
+        onChange={onEditTitle as ((e: React.ChangeEvent<HTMLInputElement>) => void) | undefined}
+      >
+        {selectedItem.title}
+      </div>
 
       <br />
-      
+
       <textarea
         className="context-input"
         value={selectedItem.context}
