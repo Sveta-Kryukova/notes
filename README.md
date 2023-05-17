@@ -1,46 +1,54 @@
-# Getting Started with Create React App
+<h1>React TypeScript Note Taking App</h1>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<a href="https://sveta-kryukova.github.io/notes-test-task/" style="font-size: 24px;">Demo</a>
 
-## Available Scripts
+This is a simple note-taking application built with React and TypeScript, designed to resemble the note-taking functionality found in Mac OS. The app allows users to create, edit, and delete notes, as well as search for notes based on partial matches in the title or context.
+<img src="https://github.com/Sveta-Kryukova/notes-test-task/assets/116656921/2040f526-3a2e-40db-bb3b-eaa95298d5fc" alt="demo" style="width: 500px; height: 270px;">
 
-In the project directory, you can run:
+<h2>Features</h2>
+Create new notes: Users can easily create new notes by providing a title and content.
 
-### `npm start`
+Edit existing notes: Existing notes can be edited to update the title or content.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Delete notes: Users can remove unwanted notes from the app.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Search functionality: The app provides a search feature that allows users to find notes by entering a partial match for the title.
+<h2>Technologies Used</h2>
+<ul>
+<li>React: The app is built using the React library, which provides a modular and efficient approach to building user interfaces. React enables the creation of reusable components, making it easier to develop complex UIs and maintain a consistent user experience.</li>
 
-### `npm test`
+<li>TypeScript: TypeScript is used to add static typing to JavaScript, enabling better code quality, improved developer experience, and increased productivity. By catching errors during development and providing better code navigation and auto-completion, TypeScript helps to build more reliable and maintainable applications.</li>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<li>HTML: HTML (Hypertext Markup Language) is the standard markup language used to structure and present content on the web. In this app, HTML is used to define the structure of the note-taking interface, including headings, paragraphs, and input fields.</li>
 
-### `npm run build`
+<li>CSS: CSS (Cascading Style Sheets) is a stylesheet language used to describe the presentation of a document written in HTML. It is used in this app to style the UI components, layout elements, and provide visual enhancements such as colors, fonts, and spacing.</li>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<li>React Hooks: React Hooks are a feature introduced in React 16.8 that allow developers to use state and other React features without writing a class. Hooks, such as useState and useEffect, are used in this app to manage state, handle side effects, and update the UI in response to user actions.</li>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<li>IndexedDB: IndexedDB is a client-side database technology that enables storing and retrieving structured data in a web browser. In this app, IndexedDB is used for creating and managing the note database, allowing for persistent storage of notes on the user's device.</li>
+ </ul>
+<h2>Setup and Usage</h2>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+-Clone the repository to your local machine.
 
-### `npm run eject`
+-Navigate to the project directory and install the dependencies using
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```npm install```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+-Start the development server with
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```npm start```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+-Open your browser and visit http://localhost:3000 to access the app.
+<h2>Project Structure</h2>
+<ul>
+  <li>src/components: Contains the React components used to build the app's UI.</li>
+  <li>src/types: Includes TypeScript type definitions used throughout the project.</li>
+</ul>
+<h2>Future Enhancements</h2>
+Add user authentication: Implement user authentication functionality to allow multiple users to have their own set of notes.
 
-## Learn More
+Add tags or categories: Enhance the note organization by introducing tags or categories for easier grouping and filtering of notes.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Improve UI/UX: Enhance the user interface and user experience to provide a more intuitive and visually appealing note-taking environment.
+Add data persistence: Integrate a server-side backend or cloud storage to persist note data, allowing users to access their notes from different devices.
