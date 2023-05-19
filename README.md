@@ -1,6 +1,6 @@
 <h1>React TypeScript Note Taking App</h1>
 
-<a href="https://sveta-kryukova.github.io/notes-test-task/" style="font-size: 24px;">Demo</a>
+<a href="https://sveta-kryukova.github.io/notes/" style="font-size: 24px;">Demo</a>
 
 This is a simple note-taking application built with React and TypeScript, designed to resemble the note-taking functionality found in Mac OS. The app allows users to create, edit, and delete notes, as well as search for notes based on partial matches in the title or context.
 
